@@ -26,3 +26,14 @@ export interface ConversionState {
   error?: string;
   recipe?: Recipe;
 }
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+}
+
+export interface SavedRecipe extends Recipe {
+  id: string;
+  savedAt: number;
+}

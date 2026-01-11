@@ -1,9 +1,12 @@
 import React from 'react';
-import { Clock, Users, Thermometer, Gauge, RotateCw, Timer, CheckCircle2, ChefHat, PlayCircle } from 'lucide-react';
+import { Clock, Users, Thermometer, Gauge, RotateCw, Timer, CheckCircle2, ChefHat, Heart, ArrowLeft } from 'lucide-react';
 import { Recipe, RecipeStep, MccSettings } from '../types';
 
 interface RecipeResultProps {
   recipe: Recipe;
+  onSave?: () => void;
+  isSaved?: boolean;
+  onBack?: () => void; // Optional back button mostly for saved view context
 }
 
 const SettingBadge: React.FC<{ icon: React.ReactNode; label: string; value: string; colorClass?: string }> = ({ icon, label, value, colorClass = "bg-slate-100 text-slate-700" }) => (
@@ -78,13 +81,40 @@ const StepCard: React.FC<{ step: RecipeStep; index: number }> = ({ step, index }
   );
 };
 
-export const RecipeResult: React.FC<RecipeResultProps> = ({ recipe }) => {
+export const RecipeResult: React.FC<RecipeResultProps> = ({ recipe, onSave, isSaved, onBack }) => {
   return (
     <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden animate-fade-in-up">
       {/* Header Image Placeholder or Title Bg */}
       <div className="bg-gradient-to-r from-slate-800 to-slate-900 p-8 text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
         <div className="relative z-10">
+          <div className="flex justify-between items-start mb-4">
+             {onBack && (
+               <button 
+                onClick={onBack}
+                className="flex items-center gap-1 text-sm text-slate-300 hover:text-white transition-colors bg-black/20 px-3 py-1.5 rounded-lg backdrop-blur-sm"
+               >
+                 <ArrowLeft size={16} />
+                 Volver
+               </button>
+             )}
+             
+             {onSave && (
+               <button 
+                onClick={onSave}
+                disabled={isSaved}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all ml-auto
+                  ${isSaved 
+                    ? 'bg-emerald-500/20 text-emerald-300 cursor-default' 
+                    : 'bg-white text-slate-900 hover:bg-emerald-400 hover:text-white shadow-lg'
+                  }`}
+               >
+                 <Heart size={16} className={isSaved ? "fill-emerald-300" : ""} />
+                 {isSaved ? "Guardado" : "Guardar Receta"}
+               </button>
+             )}
+          </div>
+
           <h2 className="text-3xl font-bold mb-2 font-display">{recipe.title}</h2>
           <p className="text-slate-300 text-lg leading-relaxed max-w-2xl">{recipe.description}</p>
           
