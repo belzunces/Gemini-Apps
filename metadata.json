@@ -1,0 +1,5 @@
+{
+  "name": "MonsieurChef AI",
+  "description": "Convierte cualquier receta tradicional en instrucciones paso a paso optimizadas para tu robot de cocina Monsieur Cuisine Connect utilizando IA avanzada.",
+  "requestFramePermissions": []
+}
